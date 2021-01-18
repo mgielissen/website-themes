@@ -34,7 +34,9 @@ var WebsiteAnimate = {
             self.win.h = $(window).height();
             $(window).trigger("scroll");
         })
-        .trigger("resize")
+        .trigger("resize");
+
+        $().getScrollingElement()
         .on("scroll.o_animate, slid.bs.carousel", (_.throttle(function () {
             // _.throttle -> Limit the number of times the scroll function
             // can be called in a given period. (http://underscorejs.org/#throttle)
@@ -87,12 +89,6 @@ var WebsiteAnimate = {
 
     // Start animation and/or update element's state
     start_animation: function ($el) {
-        // Safari/iOS workaround: perform another redraw at this specific stage to correctly trigger animations
-        // TODO: Investigate causes, normally the issue should be solved by a future 'requestAnimationFrame' implementation
-        if ($.browser.safari) {
-            $el.toggleClass('d-none').toggleClass('d-none', 1);
-        }
-
         // force the browser to redraw using setTimeout
         setTimeout(function () {
             $el
